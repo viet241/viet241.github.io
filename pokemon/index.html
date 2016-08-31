@@ -31,13 +31,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 
     <script>
-        //var pokemons = [130,131,134,135,136,143,144,145,146,148,149,150,151]; 
-        var pokemons = [019];
+        Notification.requestPermission();
+        var pokemons = prompt('Enter Pokemon\'s ID', '130,131,134,135,136,143,144,145,146,148,149,150,151');
+        pokemons = pokemons.split(',');
         var markers = [];
+        var currentPokemonID = -1;
 
         function initMap() {
-
-
             var myLatLng = {
                 lat: 10.775406,
                 lng: 106.706645
@@ -51,6 +51,9 @@
                 initializeMarkers(map);
 
             });
+            /*map.addListener('drag', function() {
+              initializeMarkers(map);
+            });*/
             map.addListener('zoom_changed', function() {
                 initializeMarkers(map);
             });
@@ -64,7 +67,7 @@
             markers = [];
             ajaxUrl = "https://www.pokeradar.io/api/v1/submissions?deviceId=7391cbf065f011e6b4c2d5bb098d395c&minLatitude=" + map.getBounds().getSouthWest().lat() + "&maxLatitude=" + map.getBounds().getNorthEast().lat() + "&minLongitude=" + map.getBounds().getSouthWest().lng() + "&maxLongitude=" + map.getBounds().getNorthEast().lng() + "&pokemonId=0";
             $.get(ajaxUrl, function(data) {
-                var currentPokemonID = -1;
+
                 for (var j = 0; j < data["data"].length; j++) {
                     if (data["data"][j]["trainerName"].indexOf("Prediction") > 0 && pokemons.indexOf(data["data"][j]["pokemonId"]) > -1) {
                         var image = {
@@ -91,9 +94,10 @@
                             lng: data["data"][j]["longitude"]
                         };
                         if (currentPokemonID == -1 || currentPokemonID != data["data"][j]["pokemonId"]) {
-                            currentPokemonID = data["data"][j]["pokemonId"];
+                            //currentPokemonID = data["data"][j]["pokemonId"];
+                            updateVariable(data["data"][j]["pokemonId"]);
                             Push.create($("a[data-pokemon-id='" + data["data"][j]["pokemonId"] + "']").text(), {
-                                body: "Click to Copy LatLng : " + location.lat + "," + location.lng,
+                                body: "Click to Copy LatLng : " + location.lat + ", " + location.lng,
                                 icon: image.url,
                                 timeout: 900000,
                                 onClick: function() {
@@ -133,6 +137,10 @@
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(map);
             }
+        }
+
+        function updateVariable(a) {
+            currentPokemonID = a;
         }
 
         function executeCopy(text) {
