@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>PKMG</title>
+	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+	<div style="display:none">
+		<ul aria-labelledby="pokemon-search" id="pokemon-search-list" class="dropdown-menu">
+		<li><a data-pokemon-id="0" href="#">All</a></li><li><a data-pokemon-id="63" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/63.png">Abra</a></li><li><a data-pokemon-id="142" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/142.png">Aerodactyl</a></li><li><a data-pokemon-id="65" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/65.png">Alakazam</a></li><li><a data-pokemon-id="24" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/24.png">Arbok</a></li><li><a data-pokemon-id="59" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/59.png">Arcanine</a></li><li><a data-pokemon-id="144" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/144.png">Articuno</a></li><li><a data-pokemon-id="15" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/15.png">Beedrill</a></li><li><a data-pokemon-id="69" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/69.png">Bellsprout</a></li><li><a data-pokemon-id="9" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/9.png">Blastoise</a></li><li><a data-pokemon-id="1" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/1.png">Bulbasaur</a></li><li><a data-pokemon-id="12" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/12.png">Butterfree</a></li><li><a data-pokemon-id="10" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/10.png">Caterpie</a></li><li><a data-pokemon-id="113" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/113.png">Chansey</a></li><li><a data-pokemon-id="6" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/6.png">Charizard</a></li><li><a data-pokemon-id="4" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/4.png">Charmander</a></li><li><a data-pokemon-id="5" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/5.png">Charmeleon</a></li><li><a data-pokemon-id="36" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/36.png">Clefable</a></li><li><a data-pokemon-id="35" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/35.png">Clefairy</a></li><li><a data-pokemon-id="91" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/91.png">Cloyster</a></li><li><a data-pokemon-id="104" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/104.png">Cubone</a></li><li><a data-pokemon-id="87" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/87.png">Dewgong</a></li><li><a data-pokemon-id="50" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/50.png">Diglett</a></li><li><a data-pokemon-id="132" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/132.png">Ditto</a></li><li><a data-pokemon-id="85" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/85.png">Dodrio</a></li><li><a data-pokemon-id="84" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/84.png">Doduo</a></li><li><a data-pokemon-id="148" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/148.png">Dragonair</a></li><li><a data-pokemon-id="149" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/149.png">Dragonite</a></li><li><a data-pokemon-id="147" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/147.png">Dratini</a></li><li><a data-pokemon-id="96" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/96.png">Drowzee</a></li><li><a data-pokemon-id="51" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/51.png">Dugtrio</a></li><li><a data-pokemon-id="133" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/133.png">Eevee</a></li><li><a data-pokemon-id="23" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/23.png">Ekans</a></li><li><a data-pokemon-id="125" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/125.png">Electabuzz</a></li><li><a data-pokemon-id="101" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/101.png">Electrode</a></li><li><a data-pokemon-id="102" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/102.png">Exeggcute</a></li><li><a data-pokemon-id="103" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/103.png">Exeggutor</a></li><li><a data-pokemon-id="83" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/83.png">Farfetch'd</a></li><li><a data-pokemon-id="22" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/22.png">Fearow</a></li><li><a data-pokemon-id="136" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/136.png">Flareon</a></li><li><a data-pokemon-id="92" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/92.png">Gastly</a></li><li><a data-pokemon-id="94" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/94.png">Gengar</a></li><li><a data-pokemon-id="74" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/74.png">Geodude</a></li><li><a data-pokemon-id="44" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/44.png">Gloom</a></li><li><a data-pokemon-id="42" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/42.png">Golbat</a></li><li><a data-pokemon-id="118" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/118.png">Goldeen</a></li><li><a data-pokemon-id="55" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/55.png">Golduck</a></li><li><a data-pokemon-id="76" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/76.png">Golem</a></li><li><a data-pokemon-id="75" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/75.png">Graveler</a></li><li><a data-pokemon-id="88" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/88.png">Grimer</a></li><li><a data-pokemon-id="58" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/58.png">Growlithe</a></li><li><a data-pokemon-id="130" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/130.png">Gyarados</a></li><li><a data-pokemon-id="93" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/93.png">Haunter</a></li><li><a data-pokemon-id="107" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/107.png">Hitmonchan</a></li><li><a data-pokemon-id="106" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/106.png">Hitmonlee</a></li><li><a data-pokemon-id="116" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/116.png">Horsea</a></li><li><a data-pokemon-id="97" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/97.png">Hypno</a></li><li><a data-pokemon-id="2" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/2.png">Ivysaur</a></li><li><a data-pokemon-id="39" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/39.png">Jigglypuff</a></li><li><a data-pokemon-id="135" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/135.png">Jolteon</a></li><li><a data-pokemon-id="124" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/124.png">Jynx</a></li><li><a data-pokemon-id="140" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/140.png">Kabuto</a></li><li><a data-pokemon-id="141" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/141.png">Kabutops</a></li><li><a data-pokemon-id="64" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/64.png">Kadabra</a></li><li><a data-pokemon-id="14" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/14.png">Kakuna</a></li><li><a data-pokemon-id="115" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/115.png">Kangaskhan</a></li><li><a data-pokemon-id="99" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/99.png">Kingler</a></li><li><a data-pokemon-id="109" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/109.png">Koffing</a></li><li><a data-pokemon-id="98" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/98.png">Krabby</a></li><li><a data-pokemon-id="131" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/131.png">Lapras</a></li><li><a data-pokemon-id="108" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/108.png">Lickitung</a></li><li><a data-pokemon-id="68" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/68.png">Machamp</a></li><li><a data-pokemon-id="67" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/67.png">Machoke</a></li><li><a data-pokemon-id="66" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/66.png">Machop</a></li><li><a data-pokemon-id="129" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/129.png">Magikarp</a></li><li><a data-pokemon-id="126" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/126.png">Magmar</a></li><li><a data-pokemon-id="81" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/81.png">Magnemite</a></li><li><a data-pokemon-id="82" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/82.png">Magneton</a></li><li><a data-pokemon-id="56" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/56.png">Mankey</a></li><li><a data-pokemon-id="105" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/105.png">Marowak</a></li><li><a data-pokemon-id="52" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/52.png">Meowth</a></li><li><a data-pokemon-id="11" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/11.png">Metapod</a></li><li><a data-pokemon-id="151" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/151.png">Mew</a></li><li><a data-pokemon-id="150" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/150.png">Mewtwo</a></li><li><a data-pokemon-id="146" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/146.png">Moltres</a></li><li><a data-pokemon-id="122" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/122.png">Mr. Mime</a></li><li><a data-pokemon-id="89" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/89.png">Muk</a></li><li><a data-pokemon-id="34" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/34.png">Nidoking</a></li><li><a data-pokemon-id="31" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/31.png">Nidoqueen</a></li><li><a data-pokemon-id="29" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/29.png">Nidoran♀</a></li><li><a data-pokemon-id="32" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/32.png">Nidoran♂</a></li><li><a data-pokemon-id="30" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/30.png">Nidorina</a></li><li><a data-pokemon-id="33" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/33.png">Nidorino</a></li><li><a data-pokemon-id="38" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/38.png">Ninetales</a></li><li><a data-pokemon-id="43" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/43.png">Oddish</a></li><li><a data-pokemon-id="138" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/138.png">Omanyte</a></li><li><a data-pokemon-id="139" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/139.png">Omastar</a></li><li><a data-pokemon-id="95" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/95.png">Onix</a></li><li><a data-pokemon-id="46" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/46.png">Paras</a></li><li><a data-pokemon-id="47" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/47.png">Parasect</a></li><li><a data-pokemon-id="53" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/53.png">Persian</a></li><li><a data-pokemon-id="18" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/18.png">Pidgeot</a></li><li><a data-pokemon-id="17" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/17.png">Pidgeotto</a></li><li><a data-pokemon-id="16" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/16.png">Pidgey</a></li><li><a data-pokemon-id="25" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/25.png">Pikachu</a></li><li><a data-pokemon-id="127" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/127.png">Pinsir</a></li><li><a data-pokemon-id="60" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/60.png">Poliwag</a></li><li><a data-pokemon-id="61" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/61.png">Poliwhirl</a></li><li><a data-pokemon-id="62" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/62.png">Poliwrath</a></li><li><a data-pokemon-id="77" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/77.png">Ponyta</a></li><li><a data-pokemon-id="137" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/137.png">Porygon</a></li><li><a data-pokemon-id="57" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/57.png">Primeape</a></li><li><a data-pokemon-id="54" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/54.png">Psyduck</a></li><li><a data-pokemon-id="26" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/26.png">Raichu</a></li><li><a data-pokemon-id="78" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/78.png">Rapidash</a></li><li><a data-pokemon-id="20" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/20.png">Raticate</a></li><li><a data-pokemon-id="19" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/19.png">Rattata</a></li><li><a data-pokemon-id="112" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/112.png">Rhydon</a></li><li><a data-pokemon-id="111" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/111.png">Rhyhorn</a></li><li><a data-pokemon-id="27" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/27.png">Sandshrew</a></li><li><a data-pokemon-id="28" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/28.png">Sandslash</a></li><li><a data-pokemon-id="123" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/123.png">Scyther</a></li><li><a data-pokemon-id="117" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/117.png">Seadra</a></li><li><a data-pokemon-id="119" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/119.png">Seaking</a></li><li><a data-pokemon-id="86" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/86.png">Seel</a></li><li><a data-pokemon-id="90" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/90.png">Shellder</a></li><li><a data-pokemon-id="80" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/80.png">Slowbro</a></li><li><a data-pokemon-id="79" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/79.png">Slowpoke</a></li><li><a data-pokemon-id="143" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/143.png">Snorlax</a></li><li><a data-pokemon-id="21" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/21.png">Spearow</a></li><li><a data-pokemon-id="7" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/7.png">Squirtle</a></li><li><a data-pokemon-id="121" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/121.png">Starmie</a></li><li><a data-pokemon-id="120" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/120.png">Staryu</a></li><li><a data-pokemon-id="114" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/114.png">Tangela</a></li><li><a data-pokemon-id="128" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/128.png">Tauros</a></li><li><a data-pokemon-id="72" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/72.png">Tentacool</a></li><li><a data-pokemon-id="73" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/73.png">Tentacruel</a></li><li><a data-pokemon-id="134" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/134.png">Vaporeon</a></li><li><a data-pokemon-id="49" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/49.png">Venomoth</a></li><li><a data-pokemon-id="48" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/48.png">Venonat</a></li><li><a data-pokemon-id="3" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/3.png">Venusaur</a></li><li><a data-pokemon-id="71" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/71.png">Victreebel</a></li><li><a data-pokemon-id="45" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/45.png">Vileplume</a></li><li><a data-pokemon-id="100" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/100.png">Voltorb</a></li><li><a data-pokemon-id="37" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/37.png">Vulpix</a></li><li><a data-pokemon-id="8" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/8.png">Wartortle</a></li><li><a data-pokemon-id="13" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/13.png">Weedle</a></li><li><a data-pokemon-id="70" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/70.png">Weepinbell</a></li><li><a data-pokemon-id="110" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/110.png">Weezing</a></li><li><a data-pokemon-id="40" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/40.png">Wigglytuff</a></li><li><a data-pokemon-id="145" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/145.png">Zapdos</a></li><li><a data-pokemon-id="41" href="#"><img class="icon" src="https://df48mbt4ll5mz.cloudfront.net/images/pokemon/41.png">Zubat</a></li></ul>
+	</div>	
+	<script type="text/javascript" src="js/push.js"></script>
+	<script type="text/javascript" src="js/push.js"></script>
+	
+    <script>
+	//	alert($("a[data-pokemon-id='143']").text());
+	  //var pokemons = [130,131,134,135,136,143,144,145,146,148,149,150,151]; 	
+	  var pokemons = [019]; 	
+	  var markers = [];
+      function initMap() {
+        var myLatLng = {lat: 10.775406, lng: 106.706645};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: myLatLng
+        });
+		
+		map.addListener('idle', function() {
+			initializeMarkers(map);
+			
+		});
+		/*map.addListener('drag', function() {
+			initializeMarkers(map);
+		});*/
+		map.addListener('zoom_changed', function() {
+				initializeMarkers(map);
+		});
+		setInterval(function(){ initializeMarkers(map); }, 30000);		
+      }
+	function initializeMarkers(map){
+				clearMarkers();
+				markers = [];				
+				ajaxUrl = "https://www.pokeradar.io/api/v1/submissions?deviceId=7391cbf065f011e6b4c2d5bb098d395c&minLatitude="+map.getBounds().getSouthWest().lat()+"&maxLatitude="+map.getBounds().getNorthEast().lat()+"&minLongitude="+map.getBounds().getSouthWest().lng()+"&maxLongitude="+map.getBounds().getNorthEast().lng()+"&pokemonId=0";
+				$.get( ajaxUrl, function( data ){						
+					var currentPokemonID=-1;
+					for (var j = 0; j < data["data"].length; j++) {							
+					if(data["data"][j]["trainerName"].indexOf("Prediction") > 0 && pokemons.indexOf(data["data"][j]["pokemonId"]) > -1){																																	
+							var image = {
+							  url: "https://df48mbt4ll5mz.cloudfront.net/images/pokemon/"+data["data"][j]["pokemonId"]+".png",
+							  size: new google.maps.Size(71, 71),
+							  origin: new google.maps.Point(0, 0),
+							  anchor: new google.maps.Point(17, 34),
+							  scaledSize: new google.maps.Size(55, 55)
+							};
+							
+							var marker = new google.maps.Marker({
+							  position: {lat: data["data"][j]["latitude"], lng: data["data"][j]["longitude"]},
+							  map: map,
+							  address: "test",
+							  title: data["data"][j]["trainerName"],
+							  icon: image
+							});
+							
+							var location = {
+								lat: data["data"][j]["latitude"],
+								lng: data["data"][j]["longitude"]
+							};
+							if(currentPokemonID==-1 || currentPokemonID!=data["data"][j]["pokemonId"]){
+								currentPokemonID = data["data"][j]["pokemonId"];							
+								Push.create($("a[data-pokemon-id='"+data["data"][j]["pokemonId"]+"']").text(), {
+									body: "Location : " + location.lat + "," + location.lng,
+									icon: image.url,
+									timeout: 900000,
+									onClick: function () {
+										window.focus();
+										this.close();
+									}
+								});
+								
+							}		
+							var infowindow = new google.maps.InfoWindow({
+								content: "vcl"
+							 });
+							 marker.addListener('click', function() {
+								infowindow.open(map, marker);
+							  });
+							 google.maps.event.addListener(marker, 'click', (function(marker, j) {
+								return function() {
+									infowindow.setContent("Pokemon: <b>" + $("a[data-pokemon-id='"+data["data"][j]["pokemonId"]+"']").text() + "</b><br/>Found by trainer: <b>"+data["data"][j]["trainerName"]+"</b><br/>Lat/Long: <b>"+data["data"][j]["latitude"]+","+data["data"][j]["longitude"] + "</b><br/>Time: <b>" + new Date(data["data"][j]["created"] * 1000).getHours()+ ":"+new Date(data["data"][j]["created"] * 1000).getMinutes()+"</b><br/>Helpful: <b>"+(data["data"][j]["upvotes"]/(data["data"][j]["upvotes"]+data["data"][j]["downvotes"]))*100+"%</b> ("+(data["data"][j]["downvotes"]+data["data"][j]["upvotes"])+" votes)");
+									infowindow.setOptions({maxWidth: 300});
+									infowindow.open(map, marker);
+								}
+							}) (marker, j));
+							markers.push(marker);
+						}				
+					}
+				});
+				
+	}
+	function clearMarkers() {
+        setMapOnAll(null);
+    }
+	function setMapOnAll(map) {
+			for (var i = 0; i < markers.length; i++) {
+			  markers[i].setMap(map);
+			}
+	}
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx6W7C9TsaPwK1aFVdzo1aSBBegq5Av4Y&callback=initMap">
+    </script>
+
+  </body>
+</html>
