@@ -28,13 +28,12 @@
     <!-- javascript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.11/push.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 
     <script>
         Notification.requestPermission();
         var pokemons = prompt('Enter Pokemon\'s ID', '130,131,134,135,136,143,144,145,146,148,149,150,151');
         pokemons = pokemons.split(',');
-        pokemons = jQuery.map(pokemons, functionn(i, v){
+        pokemons = jQuery.map(pokemons, function(i, v){
           return parseInt(v);
         });
         var markers = [];
