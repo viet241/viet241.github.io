@@ -28,6 +28,7 @@
     <!-- javascript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.11/push.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 
     <script>
         //var pokemons = [130,131,134,135,136,143,144,145,146,148,149,150,151]; 
@@ -96,8 +97,7 @@
                                 icon: image.url,
                                 timeout: 900000,
                                 onClick: function() {
-                                    window.focus();
-                                    this.close();
+                                    executeCopy(location.lat + ", " + location.lng);
                                 }
                             });
 
@@ -132,6 +132,16 @@
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(map);
             }
+        }
+
+        function executeCopy(text) {
+            var input = document.createElement('textarea');
+            document.body.appendChild(input);
+            input.value = text;
+            input.focus();
+            input.select();
+            document.execCommand('Copy');
+            input.remove();
         }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx6W7C9TsaPwK1aFVdzo1aSBBegq5Av4Y&callback=initMap"></script>
