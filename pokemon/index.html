@@ -93,11 +93,12 @@
                         if (currentPokemonID == -1 || currentPokemonID != data["data"][j]["pokemonId"]) {
                             currentPokemonID = data["data"][j]["pokemonId"];
                             Push.create($("a[data-pokemon-id='" + data["data"][j]["pokemonId"] + "']").text(), {
-                                body: "Location : " + location.lat + "," + location.lng,
+                                body: "Click to Copy LatLng : " + location.lat + "," + location.lng,
                                 icon: image.url,
                                 timeout: 900000,
                                 onClick: function() {
                                     executeCopy(location.lat + ", " + location.lng);
+                                    this.close();
                                 }
                             });
 
