@@ -33,7 +33,7 @@
         Notification.requestPermission();
         var pokemons = prompt('Enter Pokemon\'s ID', '130,131,134,135,136,143,144,145,146,148,149,150,151');
         pokemons = pokemons.split(',');
-        pokemons = jQuery.map(pokemons, function(i, v){
+        pokemons = jQuery.map(pokemons, function(v, i){
           return parseInt(v);
         });
         var markers = [];
