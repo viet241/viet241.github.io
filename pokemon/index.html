@@ -6,8 +6,7 @@
     <meta charset="utf-8">
     <title>PKMG</title>
     <style>
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -21,8 +20,8 @@
 <body>
     <div id="map"></div>
 
-    <div style="display:none">
-        <select multiple="multiple" id="poke-select"></select>
+    <div id="panel">
+        <form id="settings"></form>
     </div>
 
     <!-- javascript -->
@@ -33,7 +32,7 @@
         Notification.requestPermission();
         var pokemons = prompt('Enter Pokemon\'s ID', '130,131,134,135,136,143,144,145,146,148,149,150,151');
         pokemons = pokemons.split(',');
-        pokemons = jQuery.map(pokemons, function(v, i){
+        pokemons = jQuery.map(pokemons, function(v){
           return parseInt(v);
         });
         var markers = [];
@@ -53,9 +52,6 @@
                 initializeMarkers(map);
 
             });
-            /*map.addListener('drag', function() {
-              initializeMarkers(map);
-            });*/
             map.addListener('zoom_changed', function() {
                 initializeMarkers(map);
             });
@@ -67,9 +63,10 @@
         function initializeMarkers(map) {
             clearMarkers();
             markers = [];
+            var arrObjPokemon = [];
+            var existingPoke = [];
             ajaxUrl = "https://www.pokeradar.io/api/v1/submissions?deviceId=7391cbf065f011e6b4c2d5bb098d395c&minLatitude=" + map.getBounds().getSouthWest().lat() + "&maxLatitude=" + map.getBounds().getNorthEast().lat() + "&minLongitude=" + map.getBounds().getSouthWest().lng() + "&maxLongitude=" + map.getBounds().getNorthEast().lng() + "&pokemonId=0";
             $.get(ajaxUrl, function(data) {
-
                 for (var j = 0; j < data["data"].length; j++) {
                     if (data["data"][j]["trainerName"].indexOf("Prediction") > 0 && pokemons.indexOf(data["data"][j]["pokemonId"]) > -1) {
                         var image = {
@@ -95,19 +92,29 @@
                             lat: data["data"][j]["latitude"],
                             lng: data["data"][j]["longitude"]
                         };
-                        if (currentPokemonID == -1 || currentPokemonID != data["data"][j]["pokemonId"]) {
-                            //currentPokemonID = data["data"][j]["pokemonId"];
-                            updateVariable(data["data"][j]["pokemonId"]);
-                            Push.create($("a[data-pokemon-id='" + data["data"][j]["pokemonId"] + "']").text(), {
-                                body: "Click to Copy LatLng : " + location.lat + ", " + location.lng,
-                                icon: image.url,
-                                timeout: 900000,
-                                onClick: function() {
-                                    executeCopy(location.lat + ", " + location.lng);
-                                    this.close();
-                                }
-                            });
+                        if (existingPoke.length == 0 || existingPoke.indexOf(data["data"][j]["pokemonId"]) < 0) {
+                            existingPoke.push(data["data"][j]["pokemonId"]);
+                            var notifyBody = "Location : " + location.lat + "," + location.lng;
+                            var timeFound = new Date(data["data"][j]["created"] * 1000);
+                            var currentDate = new Date();
+                            var datediff = new Date(currentDate - timeFound);
+                            var currentDate1 = new Date(currentDate - timeFound); //toi da 15p
+                            currentDate1.setMinutes(15);
+                            currentDate1.setSeconds(datediff.getSeconds());
+                            var timeremain = new Date(currentDate1 - datediff);
+                            var a = (timeFound.getMinutes().toString().length == 1) ? "0" + timeFound.getMinutes().toString() : timeFound.getMinutes();
+                            var b = (timeFound.getSeconds().toString().length == 1) ? "0" + timeFound.getSeconds().toString() : timeFound.getSeconds();
+                            var c = (timeremain.getMinutes().toString().length == 1) ? "0" + timeremain.getMinutes().toString() : timeremain.getMinutes();
+                            var d = (timeremain.getSeconds().toString().length == 1) ? "0" + timeremain.getSeconds().toString() : timeremain.getSeconds();
 
+                            notifyBody += " Time found : " + a + ":" + b;
+                            notifyBody += " | Time remain : " + c + ":" + d;
+                            var objpokemon = {};
+                            objpokemon.id = data["data"][j]["pokemonId"];
+                            objpokemon.name = $("a[data-pokemon-id='" + data["data"][j]["pokemonId"] + "']").text();
+                            objpokemon.body = notifyBody;
+                            objpokemon.icon = image.url;
+                            arrObjPokemon.push(objpokemon);
                         }
                         var infowindow = new google.maps.InfoWindow({
                             content: "vcl"
@@ -127,6 +134,7 @@
                         markers.push(marker);
                     }
                 }
+                createNotify(0, arrObjPokemon);
             });
 
         }
@@ -141,8 +149,30 @@
             }
         }
 
-        function updateVariable(a) {
-            currentPokemonID = a;
+        function updateVariable(obj) {
+            arrPokemon.push(obj);
+        }
+
+        function createNotify(count, arrObjPokemon) {
+            if (count < arrObjPokemon.length) {
+                setTimeout(function() {
+                    var getObj = arrObjPokemon[count];
+                    count++;
+                    Push.create(getObj.name, {
+                        body: getObj.body,
+                        icon: getObj.icon,
+                        timeout: 10000
+                    });
+                    createNotify(count, arrObjPokemon)
+                }, 1000 * count);
+            }
+        }
+
+        function msToTime(milli) {
+            var milliseconds = milli % 1000;
+            var seconds = Math.floor((milli / 1000) % 60);
+            var minutes = Math.floor((milli / (60 * 1000)) % 60);
+            return minutes + ":" + seconds;
         }
 
         function executeCopy(text) {
